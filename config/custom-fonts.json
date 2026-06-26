@@ -1,0 +1,1577 @@
+{
+  "schema": 1,
+  "uiBaseId": 1100,
+  "fonts": [
+    {
+      "id": "sarasa-gothic-sc-zh",
+      "label": "更纱黑体 SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "更纱黑体 SC",
+        "Sarasa Gothic SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-gothic-sc-light-zh",
+      "label": "更纱黑体 SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "更纱黑体 SC Light",
+        "Sarasa Gothic SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-gothic-sc-semibold-zh",
+      "label": "更纱黑体 SC SemiBold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "更纱黑体 SC SemiBold",
+        "Sarasa Gothic SC SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-gothic-slab-sc-zh",
+      "label": "更纱黑体 Slab SC",
+      "fallback": "serif",
+      "localOnly": true,
+      "localNames": [
+        "更纱黑体 Slab SC",
+        "Sarasa Gothic Slab SC"
+      ]
+    },
+    {
+      "id": "sarasa-gothic-slab-sc-light-zh",
+      "label": "更纱黑体 Slab SC Light",
+      "fallback": "serif",
+      "localOnly": true,
+      "localNames": [
+        "更纱黑体 Slab SC Light",
+        "Sarasa Gothic Slab SC Light"
+      ]
+    },
+    {
+      "id": "sarasa-gothic-slab-sc-semibold-zh",
+      "label": "更纱黑体 Slab SC SemiBold",
+      "fallback": "serif",
+      "localOnly": true,
+      "localNames": [
+        "更纱黑体 Slab SC SemiBold",
+        "Sarasa Gothic Slab SC SemiBold"
+      ]
+    },
+    {
+      "id": "sarasa-mono-sc-zh",
+      "label": "等距更纱黑体 SC",
+      "fallback": "monospace",
+      "localNames": [
+        "等距更纱黑体 SC",
+        "Sarasa Mono SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-sc-light-zh",
+      "label": "等距更纱黑体 SC Light",
+      "fallback": "monospace",
+      "localNames": [
+        "等距更纱黑体 SC Light",
+        "Sarasa Mono SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-sc-semibold-zh",
+      "label": "等距更纱黑体 SC SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "等距更纱黑体 SC SemiBold",
+        "Sarasa Mono SC SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-slab-sc-zh",
+      "label": "等距更纱黑体 Slab SC",
+      "fallback": "monospace",
+      "localNames": [
+        "等距更纱黑体 Slab SC",
+        "Sarasa Mono Slab SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-slab-sc-light-zh",
+      "label": "等距更纱黑体 Slab SC Light",
+      "fallback": "monospace",
+      "localNames": [
+        "等距更纱黑体 Slab SC Light",
+        "Sarasa Mono Slab SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-slab-sc-semibold-zh",
+      "label": "等距更纱黑体 Slab SC SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "等距更纱黑体 Slab SC SemiBold",
+        "Sarasa Mono Slab SC SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-gothic-sc",
+      "label": "Sarasa Gothic SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Sarasa Gothic SC",
+        "更纱黑体 SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-gothic-sc-light",
+      "label": "Sarasa Gothic SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Sarasa Gothic SC Light",
+        "更纱黑体 SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-gothic-sc-semibold",
+      "label": "Sarasa Gothic SC SemiBold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Sarasa Gothic SC SemiBold",
+        "更纱黑体 SC SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-sc",
+      "label": "Sarasa Mono SC",
+      "fallback": "monospace",
+      "localNames": [
+        "Sarasa Mono SC",
+        "等距更纱黑体 SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-sc-light",
+      "label": "Sarasa Mono SC Light",
+      "fallback": "monospace",
+      "localNames": [
+        "Sarasa Mono SC Light",
+        "等距更纱黑体 SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-mono-sc-semibold",
+      "label": "Sarasa Mono SC SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Sarasa Mono SC SemiBold",
+        "等距更纱黑体 SC SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-term-sc",
+      "label": "Sarasa Term SC",
+      "fallback": "monospace",
+      "localNames": [
+        "Sarasa Term SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-term-sc-light",
+      "label": "Sarasa Term SC Light",
+      "fallback": "monospace",
+      "localNames": [
+        "Sarasa Term SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sarasa-term-sc-semibold",
+      "label": "Sarasa Term SC SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Sarasa Term SC SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-normal-nf-cn",
+      "label": "Maple Mono Normal NF CN",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono Normal NF CN"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-normal-nf-cn-light",
+      "label": "Maple Mono Normal NF CN Light",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono Normal NF CN Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-normal-nf-cn-medium",
+      "label": "Maple Mono Normal NF CN Medium",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono Normal NF CN Medium"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-normal-nf-cn-semibold",
+      "label": "Maple Mono Normal NF CN SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono Normal NF CN SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-normal-nf-cn-extrabold",
+      "label": "Maple Mono Normal NF CN ExtraBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono Normal NF CN ExtraBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-normal-nf-cn-thin",
+      "label": "Maple Mono Normal NF CN Thin",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono Normal NF CN Thin"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans",
+      "label": "Noto Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-black",
+      "label": "Noto Sans Black",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans Black",
+        "Noto Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-medium",
+      "label": "Noto Sans Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans Medium",
+        "Noto Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-semibold",
+      "label": "Noto Sans SemiBold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans SemiBold",
+        "Noto Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-light",
+      "label": "Noto Sans Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans Light",
+        "Noto Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-thin",
+      "label": "Noto Sans Thin",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans Thin",
+        "Noto Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-cjk-sc",
+      "label": "Noto Sans CJK SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-cjk-sc-black",
+      "label": "Noto Sans CJK SC Black",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans CJK SC Black",
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-cjk-sc-medium",
+      "label": "Noto Sans CJK SC Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans CJK SC Medium",
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-cjk-sc-light",
+      "label": "Noto Sans CJK SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans CJK SC Light",
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-cjk-sc-thin",
+      "label": "Noto Sans CJK SC Thin",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans CJK SC Thin",
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-sc",
+      "label": "Noto Sans SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans SC",
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-sc-black",
+      "label": "Noto Sans SC Black",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans SC Black",
+        "Noto Sans CJK SC Black"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-sc-medium",
+      "label": "Noto Sans SC Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans SC Medium",
+        "Noto Sans CJK SC Medium"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-sc-light",
+      "label": "Noto Sans SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans SC Light",
+        "Noto Sans CJK SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-sc-thin",
+      "label": "Noto Sans SC Thin",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Noto Sans SC Thin",
+        "Noto Sans CJK SC Thin"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono",
+      "label": "Noto Sans Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono-black",
+      "label": "Noto Sans Mono Black",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono Black",
+        "Noto Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono-medium",
+      "label": "Noto Sans Mono Medium",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono Medium",
+        "Noto Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono-semibold",
+      "label": "Noto Sans Mono SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono SemiBold",
+        "Noto Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono-light",
+      "label": "Noto Sans Mono Light",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono Light",
+        "Noto Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono-cjk-sc",
+      "label": "Noto Sans Mono CJK SC",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-sans-mono-cjk-sc-medium",
+      "label": "Noto Sans Mono CJK SC Medium",
+      "fallback": "monospace",
+      "localNames": [
+        "Noto Sans Mono CJK SC Medium",
+        "Noto Sans Mono CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif",
+      "label": "Noto Serif",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-black",
+      "label": "Noto Serif Black",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif Black",
+        "Noto Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-medium",
+      "label": "Noto Serif Medium",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif Medium",
+        "Noto Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-semibold",
+      "label": "Noto Serif SemiBold",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif SemiBold",
+        "Noto Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-light",
+      "label": "Noto Serif Light",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif Light",
+        "Noto Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-thin",
+      "label": "Noto Serif Thin",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif Thin",
+        "Noto Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-cjk-sc",
+      "label": "Noto Serif CJK SC",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-cjk-sc-black",
+      "label": "Noto Serif CJK SC Black",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif CJK SC Black",
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-cjk-sc-medium",
+      "label": "Noto Serif CJK SC Medium",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif CJK SC Medium",
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-cjk-sc-light",
+      "label": "Noto Serif CJK SC Light",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif CJK SC Light",
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-cjk-sc-thin",
+      "label": "Noto Serif CJK SC Thin",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif CJK SC Thin",
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-sc",
+      "label": "Noto Serif SC",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif SC",
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-sc-black",
+      "label": "Noto Serif SC Black",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif SC Black",
+        "Noto Serif CJK SC Black"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-sc-medium",
+      "label": "Noto Serif SC Medium",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif SC Medium",
+        "Noto Serif CJK SC Medium"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-sc-light",
+      "label": "Noto Serif SC Light",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif SC Light",
+        "Noto Serif CJK SC Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "noto-serif-sc-thin",
+      "label": "Noto Serif SC Thin",
+      "fallback": "serif",
+      "localNames": [
+        "Noto Serif SC Thin",
+        "Noto Serif CJK SC Thin"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "microsoft-yahei",
+      "label": "Microsoft YaHei",
+      "fallback": "sans-serif",
+      "localOnly": true,
+      "localNames": [
+        "Microsoft YaHei",
+        "微软雅黑"
+      ]
+    },
+    {
+      "id": "sf-pro",
+      "label": "SF Pro",
+      "fallback": "sans-serif",
+      "localNames": [
+        "SF Pro",
+        "SF Pro Text",
+        "SF Pro Display",
+        ".SF NS"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sf-pro-display",
+      "label": "SF Pro Display",
+      "fallback": "sans-serif",
+      "localNames": [
+        "SF Pro Display",
+        "SF Pro",
+        ".SF NS Display"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sf-pro-text",
+      "label": "SF Pro Text",
+      "fallback": "sans-serif",
+      "localNames": [
+        "SF Pro Text",
+        "SF Pro",
+        ".SF NS Text"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sf-compact",
+      "label": "SF Compact",
+      "fallback": "sans-serif",
+      "localNames": [
+        "SF Compact",
+        "SF Compact Text",
+        "SF Compact Display"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "sf-mono",
+      "label": "SF Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "SF Mono",
+        "SFMono-Regular",
+        "SF Mono Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "pingfang-sc",
+      "label": "PingFang SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "PingFang SC",
+        "PingFang SC Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "pingfang-sc-light",
+      "label": "PingFang SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "PingFang SC Light",
+        "PingFangSC-Light",
+        "PingFang SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "pingfang-sc-medium",
+      "label": "PingFang SC Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "PingFang SC Medium",
+        "PingFangSC-Medium",
+        "PingFang SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "pingfang-sc-semibold",
+      "label": "PingFang SC Semibold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "PingFang SC Semibold",
+        "PingFangSC-Semibold",
+        "PingFang SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "pingfang-sc-thin",
+      "label": "PingFang SC Thin",
+      "fallback": "sans-serif",
+      "localNames": [
+        "PingFang SC Thin",
+        "PingFangSC-Thin",
+        "PingFang SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "pingfang-sc-ultralight",
+      "label": "PingFang SC Ultralight",
+      "fallback": "sans-serif",
+      "localNames": [
+        "PingFang SC Ultralight",
+        "PingFangSC-Ultralight",
+        "PingFang SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "heiti-sc-light",
+      "label": "Heiti SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Heiti SC Light",
+        "STHeitiSC-Light",
+        "Heiti SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "heiti-sc-medium",
+      "label": "Heiti SC Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Heiti SC Medium",
+        "STHeitiSC-Medium",
+        "Heiti SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "stheiti",
+      "label": "STHeiti",
+      "fallback": "sans-serif",
+      "localNames": [
+        "STHeiti",
+        "华文黑体"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "hiragino-sans-gb-w3",
+      "label": "Hiragino Sans GB W3",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Hiragino Sans GB W3",
+        "Hiragino Sans GB"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "hiragino-sans-gb-w6",
+      "label": "Hiragino Sans GB W6",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Hiragino Sans GB W6",
+        "Hiragino Sans GB"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "kaiti-sc",
+      "label": "Kaiti SC",
+      "fallback": "serif",
+      "localNames": [
+        "Kaiti SC",
+        "Kaiti SC Regular",
+        "楷体-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "kaiti-sc-bold",
+      "label": "Kaiti SC Bold",
+      "fallback": "serif",
+      "localNames": [
+        "Kaiti SC Bold",
+        "Kaiti SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "kaiti-sc-black",
+      "label": "Kaiti SC Black",
+      "fallback": "serif",
+      "localNames": [
+        "Kaiti SC Black",
+        "Kaiti SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "hanzipen-sc",
+      "label": "HanziPen SC",
+      "fallback": "serif",
+      "localNames": [
+        "HanziPen SC",
+        "HanziPen SC Regular",
+        "翩翩体-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "hanzipen-sc-bold",
+      "label": "HanziPen SC Bold",
+      "fallback": "serif",
+      "localNames": [
+        "HanziPen SC Bold",
+        "HanziPen SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "hannotate-sc",
+      "label": "Hannotate SC",
+      "fallback": "serif",
+      "localNames": [
+        "Hannotate SC",
+        "Hannotate SC Regular",
+        "手札体-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "baoli-sc",
+      "label": "Baoli SC",
+      "fallback": "serif",
+      "localNames": [
+        "Baoli SC",
+        "Baoli SC Regular",
+        "报隶-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "libian-sc",
+      "label": "Libian SC",
+      "fallback": "serif",
+      "localNames": [
+        "Libian SC",
+        "Libian SC Regular",
+        "隶变-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "lingwai-sc",
+      "label": "LingWai SC",
+      "fallback": "serif",
+      "localNames": [
+        "LingWai SC",
+        "LingWai SC Medium",
+        "凌慧体-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "weibei-sc",
+      "label": "Weibei SC",
+      "fallback": "serif",
+      "localNames": [
+        "Weibei SC",
+        "Weibei SC Bold",
+        "魏碑-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "xingkai-sc-light",
+      "label": "Xingkai SC Light",
+      "fallback": "serif",
+      "localNames": [
+        "Xingkai SC Light",
+        "Xingkai SC",
+        "行楷-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "xingkai-sc-bold",
+      "label": "Xingkai SC Bold",
+      "fallback": "serif",
+      "localNames": [
+        "Xingkai SC Bold",
+        "Xingkai SC",
+        "行楷-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "yuanti-sc",
+      "label": "Yuanti SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Yuanti SC",
+        "Yuanti SC Regular",
+        "圆体-简"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "yuanti-sc-light",
+      "label": "Yuanti SC Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Yuanti SC Light",
+        "Yuanti SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "yuanti-sc-bold",
+      "label": "Yuanti SC Bold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Yuanti SC Bold",
+        "Yuanti SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "apple-chancery",
+      "label": "Apple Chancery",
+      "fallback": "serif",
+      "localNames": [
+        "Apple Chancery"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "snell-roundhand",
+      "label": "Snell Roundhand",
+      "fallback": "serif",
+      "localNames": [
+        "Snell Roundhand"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "american-typewriter",
+      "label": "American Typewriter",
+      "fallback": "serif",
+      "localNames": [
+        "American Typewriter"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "avenir-next",
+      "label": "Avenir Next",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Avenir Next",
+        "Avenir Next Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "avenir-next-condensed",
+      "label": "Avenir Next Condensed",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Avenir Next Condensed",
+        "Avenir Next Condensed Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "helvetica-neue",
+      "label": "Helvetica Neue",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Helvetica Neue",
+        "HelveticaNeue"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto",
+      "label": "Roboto",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Roboto",
+        "Roboto Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-light",
+      "label": "Roboto Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Roboto Light",
+        "Roboto"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-medium",
+      "label": "Roboto Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Roboto Medium",
+        "Roboto"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-black",
+      "label": "Roboto Black",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Roboto Black",
+        "Roboto"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-thin",
+      "label": "Roboto Thin",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Roboto Thin",
+        "Roboto"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-condensed",
+      "label": "Roboto Condensed",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Roboto Condensed",
+        "Roboto Condensed Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-slab",
+      "label": "Roboto Slab",
+      "fallback": "serif",
+      "localNames": [
+        "Roboto Slab",
+        "Roboto Slab Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-serif",
+      "label": "Roboto Serif",
+      "fallback": "serif",
+      "localNames": [
+        "Roboto Serif",
+        "Roboto Serif Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "roboto-mono",
+      "label": "Roboto Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "Roboto Mono",
+        "Roboto Mono Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "droid-sans",
+      "label": "Droid Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Droid Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "droid-sans-fallback",
+      "label": "Droid Sans Fallback",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Droid Sans Fallback"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "droid-serif",
+      "label": "Droid Serif",
+      "fallback": "serif",
+      "localNames": [
+        "Droid Serif"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "droid-sans-mono",
+      "label": "Droid Sans Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "Droid Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "google-sans",
+      "label": "Google Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Google Sans",
+        "Product Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "google-sans-text",
+      "label": "Google Sans Text",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Google Sans Text",
+        "Google Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "google-sans-display",
+      "label": "Google Sans Display",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Google Sans Display",
+        "Google Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-sans",
+      "label": "Ubuntu Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu Sans",
+        "Ubuntu"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-sans-medium",
+      "label": "Ubuntu Sans Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu Sans Medium",
+        "Ubuntu Sans",
+        "Ubuntu Medium"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-sans-bold",
+      "label": "Ubuntu Sans Bold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu Sans Bold",
+        "Ubuntu Sans",
+        "Ubuntu Bold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu",
+      "label": "Ubuntu",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-light",
+      "label": "Ubuntu Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu Light",
+        "Ubuntu"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-medium",
+      "label": "Ubuntu Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu Medium",
+        "Ubuntu"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-condensed",
+      "label": "Ubuntu Condensed",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Ubuntu Condensed"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ubuntu-mono",
+      "label": "Ubuntu Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "Ubuntu Mono",
+        "Ubuntu Monospace"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "cantarell",
+      "label": "Cantarell",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Cantarell"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "cantarell-light",
+      "label": "Cantarell Light",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Cantarell Light",
+        "Cantarell"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "cantarell-medium",
+      "label": "Cantarell Medium",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Cantarell Medium",
+        "Cantarell"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "cantarell-semi-bold",
+      "label": "Cantarell Semi-Bold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Cantarell Semi-Bold",
+        "Cantarell SemiBold",
+        "Cantarell"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "cantarell-bold",
+      "label": "Cantarell Bold",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Cantarell Bold",
+        "Cantarell"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "adwaita-sans",
+      "label": "Adwaita Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Adwaita Sans",
+        "Adwaita Sans Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "adwaita-mono",
+      "label": "Adwaita Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "Adwaita Mono",
+        "Adwaita Mono Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "inter",
+      "label": "Inter",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Inter",
+        "Inter Regular"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "dejavu-sans",
+      "label": "DejaVu Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "DejaVu Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "dejavu-sans-condensed",
+      "label": "DejaVu Sans Condensed",
+      "fallback": "sans-serif",
+      "localNames": [
+        "DejaVu Sans Condensed"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "dejavu-sans-mono",
+      "label": "DejaVu Sans Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "DejaVu Sans Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "liberation-sans",
+      "label": "Liberation Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Liberation Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "liberation-sans-narrow",
+      "label": "Liberation Sans Narrow",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Liberation Sans Narrow"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "liberation-mono",
+      "label": "Liberation Mono",
+      "fallback": "monospace",
+      "localNames": [
+        "Liberation Mono"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "nimbus-sans",
+      "label": "Nimbus Sans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Nimbus Sans",
+        "NimbusSans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "free-sans",
+      "label": "FreeSans",
+      "fallback": "sans-serif",
+      "localNames": [
+        "FreeSans",
+        "Free Sans"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "wenquanyi-micro-hei",
+      "label": "WenQuanYi Micro Hei",
+      "fallback": "sans-serif",
+      "localNames": [
+        "WenQuanYi Micro Hei",
+        "文泉驿微米黑"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "wenquanyi-zen-hei",
+      "label": "WenQuanYi Zen Hei",
+      "fallback": "sans-serif",
+      "localNames": [
+        "WenQuanYi Zen Hei",
+        "文泉驿正黑"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "source-han-sans-sc",
+      "label": "Source Han Sans SC",
+      "fallback": "sans-serif",
+      "localNames": [
+        "Source Han Sans SC",
+        "Source Han Sans CN",
+        "思源黑体",
+        "思源黑体 CN",
+        "Noto Sans CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "source-han-serif-sc",
+      "label": "Source Han Serif SC",
+      "fallback": "serif",
+      "localNames": [
+        "Source Han Serif SC",
+        "Source Han Serif CN",
+        "思源宋体",
+        "思源宋体 CN",
+        "Noto Serif CJK SC"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "lxgw-wenkai",
+      "label": "LXGW WenKai",
+      "fallback": "serif",
+      "localNames": [
+        "LXGW WenKai",
+        "霞鹜文楷"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "lxgw-wenkai-gb",
+      "label": "LXGW WenKai GB",
+      "fallback": "serif",
+      "localNames": [
+        "LXGW WenKai GB",
+        "霞鹜文楷 GB"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "zcool-kuaile",
+      "label": "ZCOOL KuaiLe",
+      "fallback": "sans-serif",
+      "localNames": [
+        "ZCOOL KuaiLe",
+        "站酷快乐体"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "zcool-qingke-huangyou",
+      "label": "ZCOOL QingKe HuangYou",
+      "fallback": "sans-serif",
+      "localNames": [
+        "ZCOOL QingKe HuangYou",
+        "站酷庆科黄油体"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "zcool-xiaowei",
+      "label": "ZCOOL XiaoWei",
+      "fallback": "serif",
+      "localNames": [
+        "ZCOOL XiaoWei",
+        "站酷小薇"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "ma-shan-zheng",
+      "label": "Ma Shan Zheng",
+      "fallback": "serif",
+      "localNames": [
+        "Ma Shan Zheng",
+        "马善政毛笔楷书"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "long-cang",
+      "label": "Long Cang",
+      "fallback": "serif",
+      "localNames": [
+        "Long Cang",
+        "龙藏体"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "zhi-mang-xing",
+      "label": "Zhi Mang Xing",
+      "fallback": "serif",
+      "localNames": [
+        "Zhi Mang Xing",
+        "志莽行书"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "liu-jian-mao-cao",
+      "label": "Liu Jian Mao Cao",
+      "fallback": "serif",
+      "localNames": [
+        "Liu Jian Mao Cao",
+        "刘建毛草"
+      ],
+      "localOnly": true
+    }
+  ]
+}

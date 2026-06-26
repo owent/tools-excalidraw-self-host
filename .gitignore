@@ -1,0 +1,6 @@
+build/
+node_modules/
+development/secret/
+.env
+.env.local
+

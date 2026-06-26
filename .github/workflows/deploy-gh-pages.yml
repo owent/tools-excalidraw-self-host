@@ -1,0 +1,108 @@
+name: Build and publish Excalidraw Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 18 * * 0"
+      timezone: Asia/Shanghai
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: excalidraw-pages
+  cancel-in-progress: false
+
+env:
+  EXCALIDRAW_REPO: https://github.com/excalidraw/excalidraw.git
+  SITE_DOMAIN: excalidraw.x-ha.com
+  UPSTREAM_DIR: build/excalidraw
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out automation repo
+        uses: actions/checkout@main
+
+      - name: Install publish tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync
+
+      - name: Clone latest upstream Excalidraw
+        run: |
+          git clone --depth=1 "$EXCALIDRAW_REPO" "$UPSTREAM_DIR"
+          git -C "$UPSTREAM_DIR" rev-parse HEAD > build/upstream-sha.txt
+
+      - name: Set up Node from upstream compatibility range
+        uses: actions/setup-node@main
+        with:
+          node-version-file: ${{ env.UPSTREAM_DIR }}/package.json
+          check-latest: true
+          package-manager-cache: false
+
+      - name: Validate automation config
+        run: node scripts/validate-config.mjs
+
+      - name: Patch upstream Excalidraw fonts
+        run: |
+          node scripts/patch-excalidraw-fonts.mjs \
+            --upstream "$UPSTREAM_DIR" \
+            --manifest config/custom-fonts.json \
+            --report build/font-patch-report.json
+
+      - name: Install upstream dependencies
+        working-directory: ${{ env.UPSTREAM_DIR }}
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile --non-interactive
+
+      - name: Build static Excalidraw app
+        working-directory: ${{ env.UPSTREAM_DIR }}
+        env:
+          VITE_APP_DISABLE_SENTRY: "true"
+        run: yarn build:app:docker
+
+      - name: Prepare Pages output
+        run: |
+          SITE_DIR="$UPSTREAM_DIR/excalidraw-app/build"
+          test -d "$SITE_DIR"
+          printf "%s\n" "$SITE_DOMAIN" > "$SITE_DIR/CNAME"
+          touch "$SITE_DIR/.nojekyll"
+          node -e "const fs=require('fs'); const sha=fs.readFileSync('build/upstream-sha.txt','utf8').trim(); fs.writeFileSync(process.argv[1], JSON.stringify({upstream:'excalidraw/excalidraw', upstream_sha:sha, built_at:new Date().toISOString(), domain:process.env.SITE_DOMAIN}, null, 2) + '\n')" "$SITE_DIR/self-host-build.json"
+
+      - name: Publish gh-pages snapshot branch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          SITE_DIR="$UPSTREAM_DIR/excalidraw-app/build"
+          rm -rf build/publish
+          mkdir -p build/publish
+          rsync -a --delete "$SITE_DIR"/ build/publish/
+          cd build/publish
+          git init --initial-branch=gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "Deploy Excalidraw $(cat ../upstream-sha.txt)"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin HEAD:gh-pages
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@main
+        with:
+          path: build/excalidraw/excalidraw-app/build
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@main

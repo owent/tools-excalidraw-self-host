@@ -53,7 +53,6 @@ async function patchConstants(root, fonts) {
   text = insertObjectBlock(
     text,
     "export const FONT_FAMILY",
-    "} as const;",
     "PROJECT_CUSTOM_FONTS",
     familyEntries,
   );
@@ -63,9 +62,7 @@ async function patchConstants(root, fonts) {
       const target =
         font.fallback === "monospace"
           ? "MONOSPACE_GENERIC_FONT"
-          : font.fallback === "serif"
-            ? "SERIF_GENERIC_FONT"
-            : "SANS_SERIF_GENERIC_FONT";
+          : "SANS_SERIF_GENERIC_FONT";
       return `    case FONT_FAMILY[${JSON.stringify(font.label)}]:\n      return ${target};`;
     })
     .join("\n");
@@ -85,14 +82,13 @@ async function patchMetadata(root, fonts) {
   const metadataEntries = fonts
     .map(
       (font) =>
-        `  [FONT_FAMILY[${JSON.stringify(font.label)}]]: DEFAULT_FONT_METADATA,`,
+        `  [FONT_FAMILY[${JSON.stringify(font.label)}]]: { metrics: { unitsPerEm: 1000, ascender: 886, descender: -374, lineHeight: 1.25 } },`,
     )
     .join("\n");
 
   text = insertObjectBlock(
     text,
     "export const FONT_METADATA",
-    "};",
     "PROJECT_CUSTOM_FONT_METADATA",
     metadataEntries,
   );
@@ -126,23 +122,85 @@ async function writeCustomFontCss(root, fonts) {
   }
 }
 
-function insertObjectBlock(text, objectName, endToken, marker, body) {
+function insertObjectBlock(text, objectName, marker, body) {
   const clean = removeMarkerBlock(text, marker);
-  const start = clean.indexOf(objectName);
-  if (start === -1) {
-    throw new Error(`${objectName} was not found`);
-  }
-  const end = clean.indexOf(endToken, start);
-  if (end === -1) {
-    throw new Error(`${endToken} after ${objectName} was not found`);
-  }
+  const close = findObjectClose(clean, objectName);
   const block = `\n  // BEGIN ${marker}\n${body}\n  // END ${marker}\n`;
-  return `${clean.slice(0, end)}${block}${clean.slice(end)}`;
+  return `${clean.slice(0, close)}${block}${clean.slice(close)}`;
+}
+
+function findObjectClose(text, declName) {
+  const start = text.indexOf(declName);
+  if (start === -1) {
+    throw new Error(`${declName} was not found`);
+  }
+  const openBrace = text.indexOf("{", start);
+  if (openBrace === -1) {
+    throw new Error(`opening brace for ${declName} was not found`);
+  }
+  let depth = 0;
+  let i = openBrace;
+  while (i < text.length) {
+    const ch = text[i];
+    if (ch === '"' || ch === "'" || ch === "`") {
+      i = skipStringLiteral(text, i, ch);
+      continue;
+    }
+    if (ch === "/" && text[i + 1] === "/") {
+      const nl = text.indexOf("\n", i);
+      i = nl === -1 ? text.length : nl + 1;
+      continue;
+    }
+    if (ch === "/" && text[i + 1] === "*") {
+      const end = text.indexOf("*/", i + 2);
+      i = end === -1 ? text.length : end + 2;
+      continue;
+    }
+    if (ch === "{") {
+      depth += 1;
+    } else if (ch === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        return i;
+      }
+    }
+    i += 1;
+  }
+  throw new Error(`matching close brace for ${declName} was not found`);
+}
+
+function skipStringLiteral(text, start, quote) {
+  let i = start + 1;
+  while (i < text.length) {
+    const ch = text[i];
+    if (ch === "\\") {
+      i += 2;
+      continue;
+    }
+    if (quote === "`" && ch === "$" && text[i + 1] === "{") {
+      let depth = 1;
+      i += 2;
+      while (i < text.length && depth > 0) {
+        if (text[i] === "{") {
+          depth += 1;
+        } else if (text[i] === "}") {
+          depth -= 1;
+        }
+        i += 1;
+      }
+      continue;
+    }
+    if (ch === quote) {
+      return i + 1;
+    }
+    i += 1;
+  }
+  return text.length;
 }
 
 function insertBeforeDefaultCase(text, marker, body) {
   const clean = removeMarkerBlock(text, marker);
-  const functionStart = clean.indexOf("export const getGenericFontFamilyFallback");
+  const functionStart = clean.indexOf("getGenericFontFamilyFallback");
   if (functionStart === -1) {
     throw new Error("getGenericFontFamilyFallback was not found");
   }

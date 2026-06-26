@@ -28,12 +28,29 @@ const fontList = manifest.fonts.map((font, index) => ({
   fontValue: manifest.uiBaseId + index,
 }));
 
-await patchConstants(upstream, fontList);
-await patchMetadata(upstream, fontList);
-await writeCustomFontCss(upstream, fontList);
+const existingKeys = await readExistingFontFamilyKeys(upstream);
+const skipped = [];
+const toAdd = [];
+for (const font of fontList) {
+  if (existingKeys.has(font.label)) {
+    skipped.push(font);
+  } else {
+    toAdd.push(font);
+  }
+}
+if (skipped.length > 0) {
+  console.warn(
+    `Skipping ${skipped.length} font(s) already built into upstream FONT_FAMILY: ${skipped.map((font) => font.label).join(", ")}`,
+  );
+}
 
-report.patchedFonts = fontList.length;
-report.localOnly = fontList.map((font) => font.label);
+await patchConstants(upstream, toAdd);
+await patchMetadata(upstream, toAdd);
+await writeCustomFontCss(upstream, toAdd);
+
+report.patchedFonts = toAdd.length;
+report.skippedBuiltIn = skipped.map((font) => font.label);
+report.localOnly = toAdd.map((font) => font.label);
 
 if (reportPath) {
   await mkdir(path.dirname(reportPath), { recursive: true });
@@ -196,6 +213,32 @@ function skipStringLiteral(text, start, quote) {
     i += 1;
   }
   return text.length;
+}
+
+async function readExistingFontFamilyKeys(root) {
+  const constantsPath = path.join(root, "packages/common/src/constants.ts");
+  let text = await readFile(constantsPath, "utf8");
+  text = removeMarkerBlock(text, "PROJECT_CUSTOM_FONTS");
+  return extractObjectKeys(text, "export const FONT_FAMILY");
+}
+
+function extractObjectKeys(text, declName) {
+  const declStart = text.indexOf(declName);
+  if (declStart === -1) {
+    return new Set();
+  }
+  const openBrace = text.indexOf("{", declStart);
+  const close = findObjectClose(text, declName);
+  const body = text.slice(openBrace + 1, close);
+  const keys = new Set();
+  for (const rawLine of body.split("\n")) {
+    const line = rawLine.replace(/\/\/.*$/, "");
+    const match = line.match(/^\s*("[^"]+"|'[^']+'|[A-Za-z_$][\w$]*)\s*:/);
+    if (match) {
+      keys.add(match[1].replace(/^["']|["']$/g, ""));
+    }
+  }
+  return keys;
 }
 
 function insertBeforeDefaultCase(text, marker, body) {

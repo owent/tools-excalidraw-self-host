@@ -252,16 +252,52 @@ async function validateWorkflow() {
     "cron: \"17 18 * * 0\"",
     "timezone: Asia/Shanghai",
     "SITE_DOMAIN: excalidraw.x-ha.com",
+    "permissions: {}",
     "actions/checkout@main",
     "actions/setup-node@main",
     "node-version-file: ${{ env.UPSTREAM_DIR }}/package.json",
     "check-latest: true",
     "actions/upload-pages-artifact@main",
     "actions/deploy-pages@main",
+    "build-and-publish:",
+    "deploy-pages:",
+    "needs: build-and-publish",
     "HEAD:gh-pages",
   ]) {
     if (!workflow.includes(expected)) {
       errors.push(`workflow missing ${expected}`);
+    }
+  }
+
+  const buildJob = workflowJobBlock(workflow, "build-and-publish");
+  const deployJob = workflowJobBlock(workflow, "deploy-pages");
+  if (!buildJob) {
+    errors.push("workflow missing build-and-publish job block");
+  } else {
+    if (buildJob.includes("environment:")) {
+      errors.push("build-and-publish job must not be gated by the github-pages environment");
+    }
+    if (!/permissions:\s*\n\s+contents:\s*write/.test(buildJob)) {
+      errors.push("build-and-publish job must have contents: write permission for the snapshot branch push");
+    }
+    if (!buildJob.includes("actions/upload-pages-artifact@main")) {
+      errors.push("build-and-publish job must upload the Pages artifact");
+    }
+  }
+  if (!deployJob) {
+    errors.push("workflow missing deploy-pages job block");
+  } else {
+    if (!deployJob.includes("needs: build-and-publish")) {
+      errors.push("deploy-pages job must depend on build-and-publish");
+    }
+    if (!/permissions:\s*\n\s+pages:\s*write\s*\n\s+id-token:\s*write/.test(deployJob)) {
+      errors.push("deploy-pages job must have pages: write and id-token: write permissions");
+    }
+    if (!/environment:\s*\n\s+name:\s*github-pages/.test(deployJob)) {
+      errors.push("deploy-pages job must target the github-pages environment");
+    }
+    if (!deployJob.includes("actions/deploy-pages@main")) {
+      errors.push("deploy-pages job must use actions/deploy-pages");
     }
   }
 
@@ -281,11 +317,22 @@ async function validateWorkflow() {
     }
   }
 }
+
+function workflowJobBlock(workflow, jobId) {
+  const pattern = new RegExp(`\\n  ${escapeRegExp(jobId)}:\\n([\\s\\S]*?)(?=\\n  [A-Za-z0-9_-]+:\\n|\\n*$)`);
+  const match = `\n${workflow}`.match(pattern);
+  return match?.[1] ?? "";
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 async function validateDocs() {
   const sourceIndex = await readFile("docs/ai/source-index.md", "utf8");
   for (const expected of [
     "Excalidraw repository",
     "GitHub Pages publishing source",
+    "GitHub Actions environment protection for Pages",
     "Local custom font references",
   ]) {
     if (!sourceIndex.includes(expected)) {

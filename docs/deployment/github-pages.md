@@ -23,8 +23,9 @@ Configure these once in the GitHub UI:
 
 1. Set `main` as the default branch.
 2. In Pages settings, choose GitHub Actions as the source.
-3. Add the custom domain `excalidraw.x-ha.com`.
-4. Enable HTTPS after GitHub provisions the certificate.
+3. In Environments, open `github-pages` and make sure deployment branches and tags allow `main`, or allow protected branches with `main` protected. If this rule excludes `main`, GitHub rejects the Pages deployment before any workflow step runs with `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
+4. Add the custom domain `excalidraw.x-ha.com`.
+5. Enable HTTPS after GitHub provisions the certificate.
 
 For DNS, create a `CNAME` record for `excalidraw.x-ha.com` pointing to the repository owner's GitHub Pages default domain, excluding this repository name.
 
@@ -38,7 +39,10 @@ For DNS, create a `CNAME` record for `excalidraw.x-ha.com` pointing to the repos
 6. Build the self-host static client using the upstream Docker-oriented app build script.
 7. Write `CNAME`, `.nojekyll`, and build metadata into the static output.
 8. Force-push the static output to `gh-pages`.
-9. Upload and deploy the static output through GitHub Pages artifact deployment.
+9. Upload the static output as a Pages artifact.
+10. In a separate environment-gated job, deploy the artifact through GitHub Pages.
+
+The build and `gh-pages` snapshot job intentionally does not target the `github-pages` environment. GitHub evaluates environment protection rules before running job steps, so keeping the environment on the final deploy job makes branch-rule failures clear without hiding build, patch, or snapshot problems.
 
 ## Toolchain Version Policy
 
@@ -55,6 +59,7 @@ This intentionally favors freshness over maximum reproducibility. GitHub warns t
 
 - Repository configuration: `node scripts/validate-config.mjs`
 - Workflow result: the Actions run should finish with a Pages deployment URL.
+- Environment protection: the deploy job should not show `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
 - Published branch: `gh-pages` should contain only the built static site snapshot.
 - Domain: `Resolve-DnsName excalidraw.x-ha.com` should show the expected GitHub Pages target after DNS propagation.
 

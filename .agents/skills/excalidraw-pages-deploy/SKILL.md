@@ -5,7 +5,7 @@ license: Proprietary
 compatibility: "Requires a modern Node.js runtime, git, GitHub Actions, network access for upstream Excalidraw, and current GitHub Pages permissions."
 metadata:
   owner: project-ai-maintainers
-  last-reviewed: "2026-06-26"
+  last-reviewed: "2026-06-27"
 ---
 
 # Excalidraw Pages Deploy
@@ -27,6 +27,7 @@ Maintain a reproducible static Excalidraw build that publishes to GitHub Pages f
 ## Gotchas
 
 - GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. Keep artifact deployment unless a verified alternative is added.
+- If a Pages job fails before any step runs with `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`, troubleshoot the repository `github-pages` environment branch rules before changing Excalidraw build or font patching code.
 - The workflow intentionally avoids hardcoded toolchain and action release version numbers. Use upstream Excalidraw compatibility metadata, Corepack, and official action default branch refs.
 - Upstream Excalidraw source layout may change. Inspect the cloned files before changing regex patching logic.
 - Current upstream font menu entries are rendered from `Fonts.registered`; adding constants and metadata alone does not make a font selectable.

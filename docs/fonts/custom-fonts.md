@@ -10,6 +10,15 @@
 - `localNames` should include the display label plus common Chinese and English family names when known.
 - Do not add vague entries such as "other popular artistic fonts" without explicit local font-family names.
 
+## Patch Surface
+
+Each custom font menu entry must be wired into all current upstream font surfaces:
+
+- `packages/common/src/constants.ts` for `FONT_FAMILY` and generic fallback handling.
+- `packages/common/src/font-metadata.ts` with `local: true` so exports do not try to inline these local-only fonts.
+- `packages/excalidraw/fonts/Fonts.ts` through `init("<label>")`, because the current font picker renders available menu entries from `Fonts.registered`.
+- `excalidraw-app/custom-fonts.scss`, imported by `excalidraw-app/index.scss`, for the generated `local(...)` aliases.
+
 ## Current Entries
 
 - Sarasa, Noto, Maple Mono, and Microsoft YaHei entries are local font aliases only.

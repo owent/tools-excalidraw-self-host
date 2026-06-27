@@ -46,11 +46,14 @@ if (skipped.length > 0) {
 
 await patchConstants(upstream, toAdd);
 await patchMetadata(upstream, toAdd);
+await patchFontRegistry(upstream, toAdd);
 await writeCustomFontCss(upstream, toAdd);
+await validatePatchedCheckout(upstream, toAdd);
 
 report.patchedFonts = toAdd.length;
 report.skippedBuiltIn = skipped.map((font) => font.label);
 report.localOnly = toAdd.map((font) => font.label);
+report.registeredFonts = toAdd.map((font) => font.label);
 
 if (reportPath) {
   await mkdir(path.dirname(reportPath), { recursive: true });
@@ -99,7 +102,15 @@ async function patchMetadata(root, fonts) {
   const metadataEntries = fonts
     .map(
       (font) =>
-        `  [FONT_FAMILY[${JSON.stringify(font.label)}]]: { metrics: { unitsPerEm: 1000, ascender: 886, descender: -374, lineHeight: 1.25 } },`,
+        `  [FONT_FAMILY[${JSON.stringify(font.label)}]]: {
+    metrics: {
+      unitsPerEm: 1000,
+      ascender: 886,
+      descender: -374,
+      lineHeight: 1.25,
+    },
+    local: true,
+  },`,
     )
     .join("\n");
 
@@ -111,6 +122,23 @@ async function patchMetadata(root, fonts) {
   );
 
   await writeFile(metadataPath, text);
+}
+
+async function patchFontRegistry(root, fonts) {
+  const fontsPath = path.join(root, "packages/excalidraw/fonts/Fonts.ts");
+  let text = await readFile(fontsPath, "utf8");
+  const registryEntries = fonts
+    .map((font) => `    init(${JSON.stringify(font.label)});`)
+    .join("\n");
+
+  text = insertBeforeText(
+    text,
+    "    // fallback font faces",
+    "PROJECT_CUSTOM_FONT_REGISTRY",
+    registryEntries,
+  );
+
+  await writeFile(fontsPath, text);
 }
 
 async function writeCustomFontCss(root, fonts) {
@@ -144,6 +172,65 @@ function insertObjectBlock(text, objectName, marker, body) {
   const close = findObjectClose(clean, objectName);
   const block = `\n  // BEGIN ${marker}\n${body}\n  // END ${marker}\n`;
   return `${clean.slice(0, close)}${block}${clean.slice(close)}`;
+}
+
+async function validatePatchedCheckout(root, fonts) {
+  if (fonts.length === 0) {
+    return;
+  }
+
+  const constantsPath = path.join(root, "packages/common/src/constants.ts");
+  const metadataPath = path.join(root, "packages/common/src/font-metadata.ts");
+  const fontsPath = path.join(root, "packages/excalidraw/fonts/Fonts.ts");
+  const cssPath = path.join(root, "excalidraw-app/custom-fonts.scss");
+
+  const [constants, metadata, fontRegistry, css] = await Promise.all([
+    readFile(constantsPath, "utf8"),
+    readFile(metadataPath, "utf8"),
+    readFile(fontsPath, "utf8"),
+    readFile(cssPath, "utf8"),
+  ]);
+
+  for (const font of fonts) {
+    assertIncludes(
+      constants,
+      `${JSON.stringify(font.label)}: ${font.fontValue},`,
+      constantsPath,
+    );
+    const metadataEntryStart = `[FONT_FAMILY[${JSON.stringify(font.label)}]]: {`;
+    const metadataEntryIndex = metadata.indexOf(metadataEntryStart);
+    if (metadataEntryIndex === -1) {
+      throw new Error(`${metadataPath} is missing generated font metadata: ${metadataEntryStart}`);
+    }
+    const metadataEntryEnd = metadata.indexOf("\n  },", metadataEntryIndex);
+    const metadataEntry = metadata.slice(
+      metadataEntryIndex,
+      metadataEntryEnd === -1 ? undefined : metadataEntryEnd,
+    );
+    assertIncludes(metadataEntry, "local: true", metadataPath);
+    assertIncludes(
+      fontRegistry,
+      `init(${JSON.stringify(font.label)});`,
+      fontsPath,
+    );
+    assertIncludes(css, `font-family: ${quoteCss(font.label)};`, cssPath);
+  }
+}
+
+function assertIncludes(text, expected, file) {
+  if (!text.includes(expected)) {
+    throw new Error(`${file} is missing generated font patch content: ${expected}`);
+  }
+}
+
+function insertBeforeText(text, needle, marker, body) {
+  const clean = removeMarkerBlock(text, marker);
+  const index = clean.indexOf(needle);
+  if (index === -1) {
+    throw new Error(`${needle} was not found`);
+  }
+  const block = `\n    // BEGIN ${marker}\n${body}\n    // END ${marker}\n`;
+  return `${clean.slice(0, index)}${block}${clean.slice(index)}`;
 }
 
 function findObjectClose(text, declName) {

@@ -1,6 +1,6 @@
 # AI Source Index
 
-All dates use the local task date, 2026-06-26.
+Dates use the local task date from the row's verification pass; earlier rows keep their original `last_checked` date.
 
 | Topic | Source | last_checked | next_review | update_trigger | Verified conclusion |
 | --- | --- | --- | --- | --- | --- |
@@ -12,6 +12,7 @@ All dates use the local task date, 2026-06-26.
 | Excalidraw repository | https://github.com/excalidraw/excalidraw | 2026-06-26 | 2026-07-03 | Weekly upstream build fails or upstream source layout changes | Upstream app source lives in the Excalidraw monorepo and can be cloned at build time. |
 | Excalidraw package scripts | https://raw.githubusercontent.com/excalidraw/excalidraw/master/package.json | 2026-06-26 | 2026-07-03 | Upstream package manager, Node compatibility, or build script changes | Upstream currently declares its package manager and Node compatibility in `package.json`; the workflow follows those upstream fields instead of hardcoding local toolchain versions. |
 | Excalidraw development and self-hosting | https://docs.excalidraw.com/docs/introduction/development | 2026-06-26 | 2026-07-03 | Self-host support, collaboration, or build commands change | Upstream documents local Yarn workflow and Docker self-hosting; current self-hosting of the client does not support sharing or collaboration features. |
+| Excalidraw font picker registry | https://raw.githubusercontent.com/excalidraw/excalidraw/master/packages/excalidraw/components/FontPicker/FontPickerList.tsx; https://raw.githubusercontent.com/excalidraw/excalidraw/master/packages/excalidraw/fonts/Fonts.ts | 2026-06-27 | 2026-07-04 | Custom font menu entries disappear or upstream font picker/registry changes | Current font picker builds the available font list from `Fonts.registered` and excludes private/fallback metadata, so local custom fonts must be registered through `Fonts.init()` in addition to constants, metadata, and CSS. |
 | GitHub Actions schedule syntax | https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onschedule | 2026-06-26 | 2026-07-26 | Changing scheduled build cadence or default branch | Scheduled workflows use POSIX cron, run on the latest commit on the default branch, and currently support a timezone field. |
 | GitHub Pages publishing source | https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site | 2026-06-26 | 2026-07-26 | Changing deploy mode or branch strategy | GitHub Pages can publish from a branch or custom workflow. GitHub documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds, so this repo uses official artifact deployment while also updating `gh-pages`. |
 | GitHub Pages custom domain | https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site | 2026-06-26 | 2026-07-26 | Domain, DNS, or Pages settings change | A custom subdomain uses a DNS `CNAME` record to the owner Pages default domain; adding a domain in repository settings is still required. |

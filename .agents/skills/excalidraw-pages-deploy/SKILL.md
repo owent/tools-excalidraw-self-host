@@ -20,14 +20,16 @@ Maintain a reproducible static Excalidraw build that publishes to GitHub Pages f
 2. Verify current upstream docs before changing Excalidraw build commands, GitHub Pages behavior, GitHub Actions versions, or local font-name assumptions.
 3. Keep generated work under `build/<task-name>/`.
 4. Update `config/custom-fonts.json` before editing font patch scripts.
-5. Run `node scripts/validate-config.mjs` after changing workflow, docs, scripts, or font config.
-6. If CI behavior changes, update `.github/workflows/deploy-gh-pages.yml`, deployment docs, and source index in the same change.
+5. When troubleshooting missing custom fonts, inspect the current upstream font picker and registry files before editing: `packages/excalidraw/components/FontPicker/FontPickerList.tsx` and `packages/excalidraw/fonts/Fonts.ts`.
+6. Run `node scripts/validate-config.mjs` after changing workflow, docs, scripts, or font config.
+7. If CI behavior changes, update `.github/workflows/deploy-gh-pages.yml`, deployment docs, and source index in the same change.
 
 ## Gotchas
 
 - GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. Keep artifact deployment unless a verified alternative is added.
 - The workflow intentionally avoids hardcoded toolchain and action release version numbers. Use upstream Excalidraw compatibility metadata, Corepack, and official action default branch refs.
 - Upstream Excalidraw source layout may change. Inspect the cloned files before changing regex patching logic.
+- Current upstream font menu entries are rendered from `Fonts.registered`; adding constants and metadata alone does not make a font selectable.
 - Do not download or redistribute font files. All custom fonts are local-only `local(...)` aliases.
 - Do not invent unnamed artistic fonts. Require exact local font-family names.
 

@@ -264,6 +264,114 @@
       "localOnly": true
     },
     {
+      "id": "maple-mono-nf-cn",
+      "label": "Maple Mono NF CN",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono NF CN"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-nf-cn-light",
+      "label": "Maple Mono NF CN Light",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono NF CN Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-nf-cn-medium",
+      "label": "Maple Mono NF CN Medium",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono NF CN Medium"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-nf-cn-semibold",
+      "label": "Maple Mono NF CN SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono NF CN SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-nf-cn-extrabold",
+      "label": "Maple Mono NF CN ExtraBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono NF CN ExtraBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-nf-cn-thin",
+      "label": "Maple Mono NF CN Thin",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono NF CN Thin"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-cn",
+      "label": "Maple Mono CN",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono CN"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-cn-light",
+      "label": "Maple Mono CN Light",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono CN Light"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-cn-medium",
+      "label": "Maple Mono CN Medium",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono CN Medium"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-cn-semibold",
+      "label": "Maple Mono CN SemiBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono CN SemiBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-cn-extrabold",
+      "label": "Maple Mono CN ExtraBold",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono CN ExtraBold"
+      ],
+      "localOnly": true
+    },
+    {
+      "id": "maple-mono-cn-thin",
+      "label": "Maple Mono CN Thin",
+      "fallback": "monospace",
+      "localNames": [
+        "Maple Mono CN Thin"
+      ],
+      "localOnly": true
+    },
+    {
       "id": "noto-sans",
       "label": "Noto Sans",
       "fallback": "sans-serif",

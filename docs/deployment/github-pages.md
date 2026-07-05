@@ -15,6 +15,8 @@ The requested snapshot branch is `gh-pages`, so the workflow force-pushes the bu
 
 GitHub's current Pages docs also state that commits pushed by a workflow using `GITHUB_TOKEN` do not trigger branch-based Pages builds. To keep deployment reliable without requiring a personal access token, the workflow deploys the same static output with GitHub's official Pages artifact actions.
 
+The artifact upload step sets `include-hidden-files: true` so that `.nojekyll` is included; without it, GitHub Pages runs Jekyll over the static output and may drop files it treats as special.
+
 If you later require branch-source Pages deployment only, use a tightly scoped PAT stored as a GitHub Actions secret and update this document, the workflow, and `docs/ai/source-index.md` after verifying current GitHub docs.
 
 ## GitHub Repository Settings
@@ -22,7 +24,7 @@ If you later require branch-source Pages deployment only, use a tightly scoped P
 Configure these once in the GitHub UI:
 
 1. Set `main` as the default branch.
-2. In Pages settings, choose GitHub Actions as the source.
+2. In Pages settings, choose **GitHub Actions** as the source. This is required for `actions/deploy-pages` to work; if the source is left on `gh-pages` (or any branch), the deploy job creates a Pages deployment but no runner picks it up, and the status check eventually times out.
 3. In Environments, open `github-pages` and make sure deployment branches and tags allow `main`, or allow protected branches with `main` protected. If this rule excludes `main`, GitHub rejects the Pages deployment before any workflow step runs with `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
 4. Add the custom domain `excalidraw.x-ha.com`.
 5. Enable HTTPS after GitHub provisions the certificate.
@@ -39,8 +41,8 @@ For DNS, create a `CNAME` record for `excalidraw.x-ha.com` pointing to the repos
 6. Build the self-host static client using the upstream Docker-oriented app build script.
 7. Write `CNAME`, `.nojekyll`, and build metadata into the static output.
 8. Force-push the static output to `gh-pages`.
-9. Upload the static output as a Pages artifact.
-10. In a separate environment-gated job, deploy the artifact through GitHub Pages.
+9. Upload the static output as a Pages artifact, including hidden files so `.nojekyll` is preserved.
+10. In a separate environment-gated job, verify that Pages is configured for GitHub Actions, then deploy the artifact through GitHub Pages.
 
 The build and `gh-pages` snapshot job intentionally does not target the `github-pages` environment. GitHub evaluates environment protection rules before running job steps, so keeping the environment on the final deploy job makes branch-rule failures clear without hiding build, patch, or snapshot problems.
 
@@ -58,6 +60,7 @@ This intentionally favors freshness over maximum reproducibility. GitHub warns t
 ## Verification
 
 - Repository configuration: `node scripts/validate-config.mjs`
+- Pages source: the deploy job should fail fast with `GitHub Pages source is not set to "GitHub Actions".` if the repository Pages source is not `workflow`. You can also query it with `gh api repos/<owner>/<repo>/pages --jq '.build_type'` or `curl -H "Accept: application/vnd.github+json" https://api.github.com/repos/<owner>/<repo>/pages`.
 - Workflow result: the Actions run should finish with a Pages deployment URL.
 - Environment protection: the deploy job should not show `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
 - Published branch: `gh-pages` should contain only the built static site snapshot.

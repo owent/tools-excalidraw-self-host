@@ -29,6 +29,7 @@ Maintain a reproducible static Excalidraw build that publishes to GitHub Pages f
 - GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. Keep artifact deployment unless a verified alternative is added.
 - The Pages artifact upload must include hidden files so `.nojekyll` is deployed; otherwise GitHub Pages runs Jekyll and may drop special files.
 - `actions/deploy-pages` only works when the repository Pages source is set to GitHub Actions. If the source is set to a branch, the deploy step creates a deployment but the status check times out.
+- If `deploy-pages` creates a deployment and then fails with `Error: Deployment failed, try again later.`, this is usually a GitHub Pages backend state issue. Try toggling the Pages source (Actions → Deploy from a branch → Actions) or re-applying Pages settings via the REST API, then re-run the workflow.
 - If a Pages job fails before any step runs with `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`, troubleshoot the repository `github-pages` environment branch rules before changing Excalidraw build or font patching code.
 - The workflow intentionally avoids hardcoded toolchain and action release version numbers. Use upstream Excalidraw compatibility metadata, Corepack, and official action default branch refs.
 - Upstream Excalidraw source layout may change. Inspect the cloned files before changing regex patching logic.

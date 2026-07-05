@@ -66,6 +66,25 @@ This intentionally favors freshness over maximum reproducibility. GitHub warns t
 - Published branch: `gh-pages` should contain only the built static site snapshot.
 - Domain: `Resolve-DnsName excalidraw.x-ha.com` should show the expected GitHub Pages target after DNS propagation.
 
+## Troubleshooting
+
+### `Error: Deployment failed, try again later.`
+
+If `actions/deploy-pages` creates the deployment but immediately reports this error, the workflow and artifact are usually correct and the failure is in GitHub's Pages publish backend. This has been observed during GitHub Pages incidents (for example, discussions around 2026-07-03 to 2026-07-05).
+
+Workarounds that have recovered deployments for other users:
+
+1. Reset the Pages source state in the repository settings:
+   - Settings → Pages → Source: temporarily switch to **Deploy from a branch** (`gh-pages` / root) and save.
+   - Switch the source back to **GitHub Actions** and save.
+   - Re-run the workflow.
+2. Check Settings → Environments → `github-pages` for stuck or failed deployments. If the environment is cluttered with failed deployments, toggling the Pages source usually clears them.
+3. If the problem persists across multiple retries, open a GitHub Support ticket with the workflow run URL and deployment ID.
+
+### Site files missing or 404 after a successful deploy
+
+Make sure `.nojekyll` is present in the deployed output. The workflow sets `include-hidden-files: true` on `actions/upload-pages-artifact` specifically so `.nojekyll` is not stripped. Without it, GitHub Pages runs Jekyll and may ignore files it considers special.
+
 ## Known Boundary
 
 Upstream Excalidraw currently documents that self-hosting the client does not support sharing or collaboration features. Keep that limitation visible unless upstream releases a verified self-host collaboration path.

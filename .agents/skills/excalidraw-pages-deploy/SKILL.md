@@ -26,11 +26,9 @@ Maintain a reproducible static Excalidraw build that publishes to GitHub Pages f
 
 ## Gotchas
 
-- GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. Keep artifact deployment unless a verified alternative is added.
-- The Pages artifact upload must include hidden files so `.nojekyll` is deployed; otherwise GitHub Pages runs Jekyll and may drop special files.
-- `actions/deploy-pages` only works when the repository Pages source is set to GitHub Actions. If the source is set to a branch, the deploy step creates a deployment but the status check times out.
-- If `deploy-pages` creates a deployment and then fails with `Error: Deployment failed, try again later.`, this is usually a GitHub Pages backend state issue. Try toggling the Pages source (Actions → Deploy from a branch → Actions) or re-applying Pages settings via the REST API, then re-run the workflow.
-- If a Pages job fails before any step runs with `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`, troubleshoot the repository `github-pages` environment branch rules before changing Excalidraw build or font patching code.
+- GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. This repo pushes `gh-pages` with the `DEPLOY_PAGE_KEY` PAT so Pages actually starts a build.
+- The repository Pages source must be set to **Deploy from a branch** → `gh-pages` / root. Artifact-based deployment is no longer used.
+- If Pages is not built after a green workflow run, verify the PAT scope and the Pages source setting before changing Excalidraw build or font patching code.
 - The workflow intentionally avoids hardcoded toolchain and action release version numbers. Use upstream Excalidraw compatibility metadata, Corepack, and official action default branch refs.
 - Upstream Excalidraw source layout may change. Inspect the cloned files before changing regex patching logic.
 - Current upstream font menu entries are rendered from `Fonts.registered`; adding constants and metadata alone does not make a font selectable.

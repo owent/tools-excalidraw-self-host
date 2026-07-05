@@ -257,11 +257,9 @@ async function validateWorkflow() {
     "actions/setup-node@main",
     "node-version-file: ${{ env.UPSTREAM_DIR }}/package.json",
     "check-latest: true",
-    "actions/upload-pages-artifact@main",
-    "actions/deploy-pages@main",
+    "secrets.DEPLOY_PAGE_KEY",
+    "Publish gh-pages branch",
     "build-and-publish:",
-    "deploy-pages:",
-    "needs: build-and-publish",
     "HEAD:gh-pages",
   ]) {
     if (!workflow.includes(expected)) {
@@ -270,7 +268,6 @@ async function validateWorkflow() {
   }
 
   const buildJob = workflowJobBlock(workflow, "build-and-publish");
-  const deployJob = workflowJobBlock(workflow, "deploy-pages");
   if (!buildJob) {
     errors.push("workflow missing build-and-publish job block");
   } else {
@@ -278,27 +275,24 @@ async function validateWorkflow() {
       errors.push("build-and-publish job must not be gated by the github-pages environment");
     }
     if (!/permissions:\s*\n\s+contents:\s*write/.test(buildJob)) {
-      errors.push("build-and-publish job must have contents: write permission for the snapshot branch push");
+      errors.push("build-and-publish job must have contents: write permission for the gh-pages branch push");
     }
-    if (!buildJob.includes("actions/upload-pages-artifact@main")) {
-      errors.push("build-and-publish job must upload the Pages artifact");
+    if (!buildJob.includes("secrets.DEPLOY_PAGE_KEY")) {
+      errors.push("build-and-publish job must use the DEPLOY_PAGE_KEY secret to push gh-pages");
+    }
+    if (!/Publish gh-pages branch/.test(buildJob)) {
+      errors.push("build-and-publish job must publish the gh-pages branch");
     }
   }
-  if (!deployJob) {
-    errors.push("workflow missing deploy-pages job block");
-  } else {
-    if (!deployJob.includes("needs: build-and-publish")) {
-      errors.push("deploy-pages job must depend on build-and-publish");
-    }
-    if (!/permissions:\s*\n\s+pages:\s*write\s*\n\s+id-token:\s*write/.test(deployJob)) {
-      errors.push("deploy-pages job must have pages: write and id-token: write permissions");
-    }
-    if (!/environment:\s*\n\s+name:\s*github-pages/.test(deployJob)) {
-      errors.push("deploy-pages job must target the github-pages environment");
-    }
-    if (!deployJob.includes("actions/deploy-pages@main")) {
-      errors.push("deploy-pages job must use actions/deploy-pages");
-    }
+
+  if (workflow.includes("deploy-pages:")) {
+    errors.push("workflow should not contain a deploy-pages job when using branch-based Pages publishing");
+  }
+  if (/actions\/upload-pages-artifact@/.test(workflow)) {
+    errors.push("workflow should not upload a Pages artifact when using branch-based Pages publishing");
+  }
+  if (/actions\/deploy-pages@/.test(workflow)) {
+    errors.push("workflow should not use actions/deploy-pages when using branch-based Pages publishing");
   }
 
   for (const forbidden of [
@@ -306,8 +300,6 @@ async function validateWorkflow() {
     { name: "hardcoded Corepack package-manager version", pattern: /corepack prepare \S+@[0-9]/ },
     { name: "versioned checkout action ref", pattern: /actions\/checkout@v[0-9]/ },
     { name: "versioned setup-node action ref", pattern: /actions\/setup-node@v[0-9]/ },
-    { name: "versioned upload-pages-artifact action ref", pattern: /actions\/upload-pages-artifact@v[0-9]/ },
-    { name: "versioned deploy-pages action ref", pattern: /actions\/deploy-pages@v[0-9]/ },
     { name: "font download step", pattern: /Download open font assets/ },
     { name: "font asset directory", pattern: /FONT_ASSET_DIR/ },
     { name: "font asset patch argument", pattern: /--font-assets/ },

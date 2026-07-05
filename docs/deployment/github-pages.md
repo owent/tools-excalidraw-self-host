@@ -9,27 +9,28 @@
 - Build input: latest upstream `excalidraw/excalidraw` at workflow runtime
 - Static output: upstream `excalidraw-app/build`
 
-## Why The Workflow Uses Pages Artifacts
+## Why The Workflow Uses a PAT for the gh-pages Branch
 
-The requested snapshot branch is `gh-pages`, so the workflow force-pushes the built static output to that branch.
+The requested snapshot branch is `gh-pages`, and the live site is published from that branch.
 
-GitHub's current Pages docs also state that commits pushed by a workflow using `GITHUB_TOKEN` do not trigger branch-based Pages builds. To keep deployment reliable without requiring a personal access token, the workflow deploys the same static output with GitHub's official Pages artifact actions.
+GitHub's current Pages docs state that commits pushed by a workflow using `GITHUB_TOKEN` do not trigger branch-based Pages builds. To make the `gh-pages` push actually start a Pages build, the workflow uses a tightly scoped personal access token stored as the `DEPLOY_PAGE_KEY` secret.
 
-The artifact upload step sets `include-hidden-files: true` so that `.nojekyll` is included; without it, GitHub Pages runs Jekyll over the static output and may drop files it treats as special.
-
-If you later require branch-source Pages deployment only, use a tightly scoped PAT stored as a GitHub Actions secret and update this document, the workflow, and `docs/ai/source-index.md` after verifying current GitHub docs.
+If you later want to switch back to artifact-based Pages deployment, remove the PAT push, re-add `actions/upload-pages-artifact` and `actions/deploy-pages`, and update this document, the workflow, and `docs/ai/source-index.md` after verifying current GitHub docs.
 
 ## GitHub Repository Settings
 
 Configure these once in the GitHub UI:
 
 1. Set `main` as the default branch.
-2. In Pages settings, choose **GitHub Actions** as the source. This is required for `actions/deploy-pages` to work; if the source is left on `gh-pages` (or any branch), the deploy job creates a Pages deployment but no runner picks it up, and the status check eventually times out.
-3. In Environments, open `github-pages` and make sure deployment branches and tags allow `main`, or allow protected branches with `main` protected. If this rule excludes `main`, GitHub rejects the Pages deployment before any workflow step runs with `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
-4. Add the custom domain `excalidraw.x-ha.com`.
-5. Enable HTTPS after GitHub provisions the certificate.
+2. In Pages settings, choose **Deploy from a branch**, select **`gh-pages`** and **`/(root)`**. This branch is force-pushed by the workflow and must trigger a Pages build.
+3. Add the custom domain `excalidraw.x-ha.com`.
+4. Enable HTTPS after GitHub provisions the certificate.
 
 For DNS, create a `CNAME` record for `excalidraw.x-ha.com` pointing to the repository owner's GitHub Pages default domain, excluding this repository name.
+
+## PAT Secret
+
+Create a **classic** or fine-grained personal access token with at least `repo` / `public_repo` (read/write) access for this repository, and add it as a GitHub Actions secret named `DEPLOY_PAGE_KEY`. The workflow uses this token instead of `GITHUB_TOKEN` for the `gh-pages` push so that GitHub Pages actually starts a build.
 
 ## CI Flow
 
@@ -40,11 +41,9 @@ For DNS, create a `CNAME` record for `excalidraw.x-ha.com` pointing to the repos
 5. Enable Corepack and install upstream dependencies with the package manager declared by upstream Excalidraw.
 6. Build the self-host static client using the upstream Docker-oriented app build script.
 7. Write `CNAME`, `.nojekyll`, and build metadata into the static output.
-8. Force-push the static output to `gh-pages`.
-9. Upload the static output as a Pages artifact, including hidden files so `.nojekyll` is preserved.
-10. In a separate environment-gated job, verify that Pages is configured for GitHub Actions, then deploy the artifact through GitHub Pages.
+8. Force-push the static output to `gh-pages` using the `DEPLOY_PAGE_KEY` PAT, which triggers a branch-based Pages build.
 
-The build and `gh-pages` snapshot job intentionally does not target the `github-pages` environment. GitHub evaluates environment protection rules before running job steps, so keeping the environment on the final deploy job makes branch-rule failures clear without hiding build, patch, or snapshot problems.
+The build job intentionally does not target the `github-pages` environment, because branch-based Pages builds are triggered by the PAT push rather than by an environment-gated deployment job.
 
 ## Toolchain Version Policy
 
@@ -60,30 +59,25 @@ This intentionally favors freshness over maximum reproducibility. GitHub warns t
 ## Verification
 
 - Repository configuration: `node scripts/validate-config.mjs`
-- Pages source: the deploy job should fail fast with `GitHub Pages source is not set to "GitHub Actions".` if the repository Pages source is not `workflow`. You can also query it with `gh api repos/<owner>/<repo>/pages --jq '.build_type'` or `curl -H "Accept: application/vnd.github+json" https://api.github.com/repos/<owner>/<repo>/pages`.
-- Workflow result: the Actions run should finish with a Pages deployment URL.
-- Environment protection: the deploy job should not show `Branch "main" is not allowed to deploy to github-pages due to environment protection rules.`
+- Workflow result: the Actions run should finish with the `Publish gh-pages branch` step green.
 - Published branch: `gh-pages` should contain only the built static site snapshot.
+- Pages build: after the PAT push, GitHub should start a `pages-build-deployment` workflow run and the Pages build should succeed.
 - Domain: `Resolve-DnsName excalidraw.x-ha.com` should show the expected GitHub Pages target after DNS propagation.
 
 ## Troubleshooting
 
-### `Error: Deployment failed, try again later.`
+### Pages build is not triggered after a green workflow run
 
-If `actions/deploy-pages` creates the deployment but immediately reports this error, the workflow and artifact are usually correct and the failure is in GitHub's Pages publish backend. This has been observed during GitHub Pages incidents (for example, discussions around 2026-07-03 to 2026-07-05).
+If the workflow pushes `gh-pages` successfully but GitHub Pages does not build:
 
-Workarounds that have recovered deployments for other users:
+1. Confirm `DEPLOY_PAGE_KEY` is a classic or fine-grained PAT with `repo` / `public_repo` write access for this repository, not the default `GITHUB_TOKEN`.
+2. Confirm Pages settings are set to **Deploy from a branch** → **`gh-pages`** → **`/(root)`**.
+3. Check **Settings → Environments** for a stale `github-pages` environment left over from artifact-based deployments; removing it can help if it conflicts with branch-based builds.
+4. Force-push a fresh commit to `gh-pages` (re-run the workflow) after confirming the settings above.
 
-1. Reset the Pages source state in the repository settings:
-   - Settings → Pages → Source: temporarily switch to **Deploy from a branch** (`gh-pages` / root) and save.
-   - Switch the source back to **GitHub Actions** and save.
-   - Re-run the workflow.
-2. Check Settings → Environments → `github-pages` for stuck or failed deployments. If the environment is cluttered with failed deployments, toggling the Pages source usually clears them.
-3. If the problem persists across multiple retries, open a GitHub Support ticket with the workflow run URL and deployment ID.
+### Site files missing or 404 after a successful Pages build
 
-### Site files missing or 404 after a successful deploy
-
-Make sure `.nojekyll` is present in the deployed output. The workflow sets `include-hidden-files: true` on `actions/upload-pages-artifact` specifically so `.nojekyll` is not stripped. Without it, GitHub Pages runs Jekyll and may ignore files it considers special.
+Make sure `.nojekyll` is present in the deployed output. The workflow writes it into `gh-pages` so GitHub Pages does not run Jekyll and drop files it considers special.
 
 ## Known Boundary
 

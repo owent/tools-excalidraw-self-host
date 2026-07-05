@@ -2,7 +2,7 @@
 
 Self-hosted Excalidraw static site automation for GitHub Pages.
 
-This repo is an automation wrapper. It clones upstream Excalidraw during CI, patches local-only custom font menu entries into the app, builds the static client, publishes the Pages artifact, and force-updates `gh-pages` as the published snapshot branch.
+This repo is an automation wrapper. It clones upstream Excalidraw during CI, patches local-only custom font menu entries into the app, builds the static client, and force-updates `gh-pages` using a PAT so GitHub Pages builds and serves the snapshot.
 
 ## Contract
 
@@ -24,9 +24,10 @@ This repo is an automation wrapper. It clones upstream Excalidraw during CI, pat
 ## First Setup
 
 1. Push this repository to GitHub with `main` as the default branch.
-2. In repository settings, enable GitHub Pages with GitHub Actions as the source.
-3. Add the custom domain `excalidraw.x-ha.com` in Pages settings.
-4. Configure DNS so `excalidraw.x-ha.com` is a `CNAME` to the repository owner's GitHub Pages default domain.
-5. Run the `Build and publish Excalidraw Pages` workflow manually once.
+2. Create a GitHub Actions secret named `DEPLOY_PAGE_KEY` containing a PAT with `repo` / `public_repo` write access for this repository.
+3. In repository settings, enable GitHub Pages with **Deploy from a branch** → **`gh-pages`** → **`/(root)`**.
+4. Add the custom domain `excalidraw.x-ha.com` in Pages settings.
+5. Configure DNS so `excalidraw.x-ha.com` is a `CNAME` to the repository owner's GitHub Pages default domain.
+6. Run the `Build and publish Excalidraw Pages` workflow manually once.
 
 The workflow writes `CNAME` into the built output and updates `gh-pages`, but GitHub Pages custom domain ownership and DNS are external settings that must be configured outside the repository.

@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
-      contents: write
+      contents: read
 
     steps:
       - name: Check out automation repo
@@ -77,10 +77,19 @@ jobs:
           touch "$SITE_DIR/.nojekyll"
           node -e "const fs=require('fs'); const sha=fs.readFileSync('build/upstream-sha.txt','utf8').trim(); fs.writeFileSync(process.argv[1], JSON.stringify({upstream:'excalidraw/excalidraw', upstream_sha:sha, built_at:new Date().toISOString(), domain:process.env.SITE_DOMAIN}, null, 2) + '\n')" "$SITE_DIR/self-host-build.json"
 
-      - name: Publish gh-pages branch
+      - name: Publish gh-pages branch via SSH
         env:
           DEPLOY_PAGE_KEY: ${{ secrets.DEPLOY_PAGE_KEY }}
         run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_PAGE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          if ! grep -q "BEGIN" ~/.ssh/deploy_key; then
+            echo "::error::DEPLOY_PAGE_KEY does not look like an SSH private key."
+            exit 1
+          fi
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
           SITE_DIR="$UPSTREAM_DIR/excalidraw-app/build"
           rm -rf build/publish
           mkdir -p build/publish
@@ -91,5 +100,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add --all
           git commit -m "Deploy Excalidraw $(cat ../upstream-sha.txt)"
-          git remote add origin "https://x-access-token:${DEPLOY_PAGE_KEY}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote add origin "git@github.com:${GITHUB_REPOSITORY}.git"
           git push --force origin HEAD:gh-pages

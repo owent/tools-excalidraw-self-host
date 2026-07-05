@@ -26,9 +26,9 @@ Maintain a reproducible static Excalidraw build that publishes to GitHub Pages f
 
 ## Gotchas
 
-- GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. This repo pushes `gh-pages` with the `DEPLOY_PAGE_KEY` PAT so Pages actually starts a build.
+- GitHub currently documents that `GITHUB_TOKEN` commits do not trigger branch-based Pages builds. This repo pushes `gh-pages` over SSH using the `DEPLOY_PAGE_KEY` deploy key so Pages actually starts a build.
 - The repository Pages source must be set to **Deploy from a branch** → `gh-pages` / root. Artifact-based deployment is no longer used.
-- If Pages is not built after a green workflow run, verify the PAT scope and the Pages source setting before changing Excalidraw build or font patching code.
+- If Pages is not built after a green workflow run, verify the deploy key has **Allow write access** and that the secret contains the private key (not the public key) before changing Excalidraw build or font patching code.
 - The workflow intentionally avoids hardcoded toolchain and action release version numbers. Use upstream Excalidraw compatibility metadata, Corepack, and official action default branch refs.
 - Upstream Excalidraw source layout may change. Inspect the cloned files before changing regex patching logic.
 - Current upstream font menu entries are rendered from `Fonts.registered`; adding constants and metadata alone does not make a font selectable.

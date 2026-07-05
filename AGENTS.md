@@ -28,7 +28,7 @@ Run local task scratch, cloned upstream source, and build output under `build/<t
 
 ## Deployment Contract
 
-- The weekly workflow pulls the latest upstream Excalidraw `master`, builds a static site, and force-updates `gh-pages` using a PAT (`DEPLOY_PAGE_KEY`) so GitHub Pages builds and serves the branch snapshot.
+- The weekly workflow pulls the latest upstream Excalidraw `master`, builds a static site, and force-updates `gh-pages` over SSH using a deploy key (`DEPLOY_PAGE_KEY`) so GitHub Pages builds and serves the branch snapshot.
 - Build tooling should follow the latest compatible upstream defaults. Do not hardcode Node, Yarn, npm, pnpm, or GitHub Action release version numbers in the workflow. If GitHub Actions requires an `@ref`, use the official action's default branch ref and document the stability tradeoff.
 - The site writes `CNAME` with `excalidraw.x-ha.com` into the published static output. The repository Pages settings and DNS still need to be configured for that domain.
 - Keep Excalidraw self-hosting limitations documented. Current upstream docs state that self-hosting the client does not support sharing or collaboration features.

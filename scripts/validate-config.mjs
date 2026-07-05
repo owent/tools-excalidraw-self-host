@@ -274,14 +274,17 @@ async function validateWorkflow() {
     if (buildJob.includes("environment:")) {
       errors.push("build-and-publish job must not be gated by the github-pages environment");
     }
-    if (!/permissions:\s*\n\s+contents:\s*write/.test(buildJob)) {
-      errors.push("build-and-publish job must have contents: write permission for the gh-pages branch push");
+    if (!/permissions:\s*\n\s+contents:\s*read/.test(buildJob)) {
+      errors.push("build-and-publish job must have contents: read permission for checkout");
     }
     if (!buildJob.includes("secrets.DEPLOY_PAGE_KEY")) {
       errors.push("build-and-publish job must use the DEPLOY_PAGE_KEY secret to push gh-pages");
     }
-    if (!/Publish gh-pages branch/.test(buildJob)) {
-      errors.push("build-and-publish job must publish the gh-pages branch");
+    if (!/Publish gh-pages branch via SSH/.test(buildJob)) {
+      errors.push("build-and-publish job must publish the gh-pages branch via SSH");
+    }
+    if (!buildJob.includes("git@github.com:")) {
+      errors.push("workflow must use the SSH git URL (git@github.com:) for the gh-pages remote");
     }
   }
 

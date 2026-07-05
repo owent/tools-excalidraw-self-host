@@ -9,13 +9,13 @@
 - Build input: latest upstream `excalidraw/excalidraw` at workflow runtime
 - Static output: upstream `excalidraw-app/build`
 
-## Why The Workflow Uses a PAT for the gh-pages Branch
+## Why The Workflow Uses an SSH Deploy Key for the gh-pages Branch
 
 The requested snapshot branch is `gh-pages`, and the live site is published from that branch.
 
-GitHub's current Pages docs state that commits pushed by a workflow using `GITHUB_TOKEN` do not trigger branch-based Pages builds. To make the `gh-pages` push actually start a Pages build, the workflow uses a tightly scoped personal access token stored as the `DEPLOY_PAGE_KEY` secret.
+GitHub's current Pages docs state that commits pushed by a workflow using `GITHUB_TOKEN` do not trigger branch-based Pages builds. To make the `gh-pages` push actually start a Pages build, the workflow uses an SSH deploy key stored as the `DEPLOY_PAGE_KEY` secret.
 
-If you later want to switch back to artifact-based Pages deployment, remove the PAT push, re-add `actions/upload-pages-artifact` and `actions/deploy-pages`, and update this document, the workflow, and `docs/ai/source-index.md` after verifying current GitHub docs.
+If you later want to switch back to artifact-based Pages deployment, remove the SSH push, re-add `actions/upload-pages-artifact` and `actions/deploy-pages`, and update this document, the workflow, and `docs/ai/source-index.md` after verifying current GitHub docs.
 
 ## GitHub Repository Settings
 
@@ -28,9 +28,19 @@ Configure these once in the GitHub UI:
 
 For DNS, create a `CNAME` record for `excalidraw.x-ha.com` pointing to the repository owner's GitHub Pages default domain, excluding this repository name.
 
-## PAT Secret
+## SSH Deploy Key
 
-Create a **classic** or fine-grained personal access token with at least `repo` / `public_repo` (read/write) access for this repository, and add it as a GitHub Actions secret named `DEPLOY_PAGE_KEY`. The workflow uses this token instead of `GITHUB_TOKEN` for the `gh-pages` push so that GitHub Pages actually starts a build.
+1. Generate an SSH key pair locally (do not add a passphrase, or use `ssh-keygen -P ""`):
+   ```bash
+   ssh-keygen -t ed25519 -C "tools-excalidraw-self-host-deploy" -f deploy_key
+   ```
+2. In the repository settings, go to **Settings → Deploy keys → Add deploy key**.
+   - Paste the contents of `deploy_key.pub`.
+   - Check **Allow write access**.
+   - Save.
+3. Add the contents of the private key file `deploy_key` as a GitHub Actions secret named `DEPLOY_PAGE_KEY`.
+
+The workflow uses this deploy key instead of `GITHUB_TOKEN` for the `gh-pages` push so that GitHub Pages actually starts a build.
 
 ## CI Flow
 
@@ -41,7 +51,7 @@ Create a **classic** or fine-grained personal access token with at least `repo` 
 5. Enable Corepack and install upstream dependencies with the package manager declared by upstream Excalidraw.
 6. Build the self-host static client using the upstream Docker-oriented app build script.
 7. Write `CNAME`, `.nojekyll`, and build metadata into the static output.
-8. Force-push the static output to `gh-pages` using the `DEPLOY_PAGE_KEY` PAT, which triggers a branch-based Pages build.
+8. Force-push the static output to `gh-pages` over SSH using the `DEPLOY_PAGE_KEY` deploy key, which triggers a branch-based Pages build.
 
 The build job intentionally does not target the `github-pages` environment, because branch-based Pages builds are triggered by the PAT push rather than by an environment-gated deployment job.
 
@@ -70,10 +80,11 @@ This intentionally favors freshness over maximum reproducibility. GitHub warns t
 
 If the workflow pushes `gh-pages` successfully but GitHub Pages does not build:
 
-1. Confirm `DEPLOY_PAGE_KEY` is a classic or fine-grained PAT with `repo` / `public_repo` write access for this repository, not the default `GITHUB_TOKEN`.
+1. Confirm `DEPLOY_PAGE_KEY` is the **private** half of an SSH deploy key and that the **public** half is added in **Settings → Deploy keys** with **Allow write access** enabled.
 2. Confirm Pages settings are set to **Deploy from a branch** → **`gh-pages`** → **`/(root)`**.
-3. Check **Settings → Environments** for a stale `github-pages` environment left over from artifact-based deployments; removing it can help if it conflicts with branch-based builds.
-4. Force-push a fresh commit to `gh-pages` (re-run the workflow) after confirming the settings above.
+3. Check the workflow log for SSH errors (host key, permission denied, etc.). The remote URL should be `git@github.com:owent/tools-excalidraw-self-host.git`.
+4. Check **Settings → Environments** for a stale `github-pages` environment left over from artifact-based deployments; removing it can help if it conflicts with branch-based builds.
+5. Force-push a fresh commit to `gh-pages` (re-run the workflow) after confirming the settings above.
 
 ### Site files missing or 404 after a successful Pages build
 

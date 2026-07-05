@@ -2,7 +2,7 @@
 
 Self-hosted Excalidraw static site automation for GitHub Pages.
 
-This repo is an automation wrapper. It clones upstream Excalidraw during CI, patches local-only custom font menu entries into the app, builds the static client, and force-updates `gh-pages` using a PAT so GitHub Pages builds and serves the snapshot.
+This repo is an automation wrapper. It clones upstream Excalidraw during CI, patches local-only custom font menu entries into the app, builds the static client, and force-updates `gh-pages` over SSH using a deploy key so GitHub Pages builds and serves the snapshot.
 
 ## Contract
 
@@ -24,7 +24,7 @@ This repo is an automation wrapper. It clones upstream Excalidraw during CI, pat
 ## First Setup
 
 1. Push this repository to GitHub with `main` as the default branch.
-2. Create a GitHub Actions secret named `DEPLOY_PAGE_KEY` containing a PAT with `repo` / `public_repo` write access for this repository.
+2. Add an SSH deploy key with write access to this repository and store the private key as the GitHub Actions secret `DEPLOY_PAGE_KEY`.
 3. In repository settings, enable GitHub Pages with **Deploy from a branch** → **`gh-pages`** → **`/(root)`**.
 4. Add the custom domain `excalidraw.x-ha.com` in Pages settings.
 5. Configure DNS so `excalidraw.x-ha.com` is a `CNAME` to the repository owner's GitHub Pages default domain.
